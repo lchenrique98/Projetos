@@ -1,2 +1,21 @@
-Projeto desenvolvido em React, utilizando JavaScript, JSX, Vite, React Router, CSS e APIs da NASA. 
-O projeto é focado na exploração de informações espaciais, permitindo consultar imagens astronômicas, asteroides próximos da Terra e imagens da biblioteca da NASA.
+# Projetos da Faculdade
+
+Repositório destinado aos projetos e trabalhos desenvolvidos durante minha graduação em Análise e Desenvolvimento de Sistemas.
+
+## Projetos
+
+### NoticiasApi
+
+Portal de notícias desenvolvido como projeto acadêmico.
+
+**Tecnologias:**
+- React
+- JavaScript
+- PHP
+- MySQL
+- HTML
+- CSS
+
+---
+
+Novos projetos desenvolvidos durante a graduação serão adicionados a este repositório.
