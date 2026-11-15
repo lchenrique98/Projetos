@@ -1,0 +1,403 @@
+/* =========================================================
+   MarcinhaFlores — Dashboard "Bordô & Creme"
+   Arquivo: floricultura/static/floricultura/css/painel.css
+   (usa as variáveis do style.css)
+   ========================================================= */
+
+@keyframes surgir {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes crescer {
+    from { width: 0; }
+}
+
+/* BOAS-VINDAS */
+.dash-boasvindas {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 36px 36px 32px;
+    border-radius: var(--raio);
+    background: var(--branco);
+    box-shadow: var(--sombra-card);
+    animation: surgir 0.45s ease both;
+}
+
+.dash-data {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--bordo);
+}
+
+.conteudo main .dash-boasvindas h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 6px;
+    font-family: var(--fonte-titulo);
+    font-size: 46px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--tinta);
+}
+
+.dash-flor {
+    width: 34px;
+    height: 34px;
+    /* ícone preto vira bordô */
+    filter: invert(15%) sepia(43%) saturate(2400%) hue-rotate(320deg) brightness(88%);
+}
+
+.dash-boasvindas p {
+    color: var(--texto-2);
+    font-size: 16px;
+}
+
+.dash-atalhos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dash-atalho {
+    padding: 14px 24px;
+    border: 1px solid var(--tinta);
+    border-radius: 999px;
+    color: var(--tinta);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.dash-atalho:hover {
+    background: var(--tinta);
+    color: #FFF8F3;
+}
+
+.dash-atalho.principal {
+    background: var(--bordo);
+    border-color: var(--bordo);
+    color: #FFF8F3;
+    font-weight: 600;
+}
+
+.dash-atalho.principal:hover {
+    background: var(--bordo-escuro);
+    border-color: var(--bordo-escuro);
+}
+
+/* INDICADORES — números grandes com legenda espaçada */
+.dash-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 40px 0;
+    border-top: 1px solid var(--linha);
+    border-bottom: 1px solid var(--linha);
+}
+
+.dash-kpi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px 20px;
+    animation: surgir 0.45s ease both;
+}
+
+.dash-kpi + .dash-kpi {
+    border-left: 1px solid var(--linha);
+}
+
+.dash-kpi:nth-child(2) { animation-delay: 0.06s; }
+.dash-kpi:nth-child(3) { animation-delay: 0.12s; }
+.dash-kpi:nth-child(4) { animation-delay: 0.18s; }
+
+/* o mockup não usa ícones nos números */
+.kpi-icone {
+    display: none;
+}
+
+.kpi-titulo {
+    order: 2;
+    margin-top: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--texto-3);
+}
+
+.kpi-valor {
+    order: 1;
+    font-family: var(--fonte-titulo);
+    font-size: 52px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--tinta);
+}
+
+.kpi-info {
+    order: 3;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--texto-2);
+}
+
+.kpi-info a {
+    color: var(--bordo);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.kpi-info a:hover {
+    text-decoration: underline;
+}
+
+.dash-kpi.alerta .kpi-valor,
+.dash-kpi.alerta .kpi-info {
+    color: var(--bordo);
+}
+
+/* PAINÉIS */
+.dash-grade {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.dash-painel {
+    grid-column: span 5;
+    padding: 32px;
+    border-radius: var(--raio);
+    background: var(--branco);
+    box-shadow: var(--sombra-card);
+    animation: surgir 0.45s ease both;
+    animation-delay: 0.2s;
+}
+
+.dash-largo {
+    grid-column: span 7;
+    grid-row: span 2;
+}
+
+.painel-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+
+.painel-topo h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--tinta);
+}
+
+.painel-topo a {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bordo);
+    text-decoration: none;
+}
+
+.painel-topo a:hover {
+    text-decoration: underline;
+}
+
+.painel-vazio {
+    padding: 24px 0;
+    color: var(--texto-3);
+    font-size: 15px;
+}
+
+.dash-painel ul {
+    list-style: none;
+}
+
+/* Últimas vendas */
+.lista-vendas li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid #F0E6DF;
+}
+
+.avatar-venda {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--creme-3);
+    color: var(--bordo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.lista-vendas li:nth-child(4n+2) .avatar-venda { background: #EFE7DA; color: #7A5A14; }
+.lista-vendas li:nth-child(4n+3) .avatar-venda { background: #E6ECE4; color: #2F5A3E; }
+.lista-vendas li:nth-child(4n+4) .avatar-venda { background: #ECE4EE; color: #5B3A6B; }
+
+.venda-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.venda-info strong {
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.venda-info small {
+    font-size: 13px;
+    color: var(--texto-3);
+}
+
+.venda-valor {
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Mais vendidos */
+.lista-ranking li + li {
+    margin-top: 18px;
+}
+
+.ranking-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.ranking-linha b {
+    font-family: var(--fonte-titulo);
+    font-size: 18px;
+    color: var(--bordo);
+    margin-right: 6px;
+}
+
+.ranking-linha small {
+    font-size: 13px;
+    color: var(--texto-3);
+}
+
+.barra {
+    height: 3px;
+    border-radius: 3px;
+    background: #F0E6DF;
+    overflow: hidden;
+}
+
+.barra div {
+    height: 100%;
+    background: var(--bordo);
+    animation: crescer 0.9s ease both;
+    animation-delay: 0.3s;
+}
+
+/* Repor estoque */
+.lista-estoque li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid #F0E6DF;
+}
+
+.lista-estoque li:last-child {
+    padding-bottom: 0;
+}
+
+.lista-estoque strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.lista-estoque small {
+    font-size: 12px;
+    color: var(--texto-3);
+}
+
+.etiqueta-estoque {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #F6ECD6;
+    color: #7A5A14;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.etiqueta-estoque.zerado {
+    background: var(--creme-3);
+    color: var(--bordo);
+}
+
+/* RESPONSIVO */
+@media (max-width: 1000px) {
+    .dash-kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dash-kpi:nth-child(3) {
+        border-left: 0;
+    }
+
+    .dash-kpi:nth-child(n+3) {
+        border-top: 1px solid var(--linha);
+    }
+
+    .dash-painel,
+    .dash-largo {
+        grid-column: span 12;
+        grid-row: auto;
+    }
+}
+
+@media (max-width: 560px) {
+    .dash-kpis {
+        grid-template-columns: 1fr;
+    }
+
+    .dash-kpi + .dash-kpi {
+        border-left: 0;
+        border-top: 1px solid var(--linha);
+    }
+
+    .dash-boasvindas,
+    .dash-painel {
+        padding: 24px;
+    }
+
+    .dash-atalho {
+        flex: 1;
+        text-align: center;
+    }
+}

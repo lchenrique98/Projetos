@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarcinhaFlores · Sistema de gestão</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=bordo1">
+</head>
+<body>
+
+    <nav class="home-nav">
+        <a href="{% url 'home' %}" class="home-marca">Marcinha<em>Flores</em></a>
+
+        <div class="home-links">
+            <a href="{% url 'produtos' %}">Produtos</a>
+            <a href="{% url 'vendas' %}">Vendas</a>
+            <a href="{% url 'encomendas' %}">Encomendas</a>
+            <a href="{% url 'clientes' %}">Clientes</a>
+            <a href="{% url 'dashboard_floricultura' %}" class="home-btn-contorno">Entrar no painel</a>
+        </div>
+    </nav>
+
+    <section class="home-hero">
+        <div class="home-texto">
+            <span class="home-sobretitulo">Sistema de gestão · Floricultura</span>
+
+            <h1>O jardim da <em>Marcinha</em>, sempre em ordem.</h1>
+
+            <p>
+                Do balcão à entrega: estoque, vendas, encomendas e clientes
+                num lugar só, para sobrar mais tempo para as flores.
+            </p>
+
+            <div class="home-botoes">
+                <a href="{% url 'dashboard_floricultura' %}" class="home-btn-principal">Acessar o painel →</a>
+                <a href="{% url 'encomendas' %}" class="home-btn-link">Ver encomendas de hoje</a>
+            </div>
+        </div>
+
+        <div class="home-foto">
+            <img src="{% static 'core/imagens/flores.jpg' %}" alt="Fachada de floricultura com vasos e cestos de flores">
+
+            <div class="home-proxima">
+                <span>Próxima entrega</span>
+                {% if proxima_entrega %}
+                    <a href="{% url 'detalhes_encomenda' proxima_entrega.id %}">
+                        {{ proxima_entrega.descricao|truncatechars:26 }} ·
+                        {% if proxima_entrega.data_entrega == hoje %}{% if proxima_entrega.hora_entrega %}{{ proxima_entrega.hora_entrega|time:"H:i" }}{% else %}hoje{% endif %}{% else %}{{ proxima_entrega.data_entrega|date:"d/m" }}{% endif %}
+                    </a>
+                {% else %}
+                    <strong>Nenhuma entrega agendada</strong>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="home-rapida">
+        <form method="get" action="{% url 'nova_encomenda' %}" class="home-form">
+            <span class="home-selo">Encomenda rápida</span>
+
+            <div class="home-campos">
+                <label>
+                    <span>Cliente</span>
+                    <select name="cliente" required>
+                        <option value="">Selecione o cliente</option>
+                        {% for c in clientes %}
+                            <option value="{{ c.id }}">{{ c.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label>
+                    <span>O que vai ser</span>
+                    <input type="text" name="descricao" placeholder="Ex.: buquê de rosas">
+                </label>
+
+                <label>
+                    <span>Data da entrega</span>
+                    <input type="date" name="data_entrega" min="{{ hoje|date:'Y-m-d' }}">
+                </label>
+
+                <label>
+                    <span>Valor</span>
+                    <input type="text" name="valor" inputmode="decimal" placeholder="R$ 0,00">
+                </label>
+            </div>
+
+            <button type="submit">Criar encomenda →</button>
+            <p>O sinal e o endereço de entrega você completa na próxima tela.</p>
+        </form>
+    </section>
+
+    <section class="home-numeros">
+        <div>
+            <strong>{{ clientes_ativos }}</strong>
+            <span>Clientes ativos</span>
+        </div>
+        <div>
+            <strong>R$ {{ vendas_mes|floatformat:"0g" }}</strong>
+            <span>Vendas no mês</span>
+        </div>
+        <div>
+            <strong>{{ encomendas_abertas }}</strong>
+            <span>Encomendas abertas</span>
+        </div>
+        <div>
+            <strong>{{ produtos_repor }}</strong>
+            <span>Produtos para repor</span>
+        </div>
+    </section>
+
+    <footer class="home-rodape">
+        <p>&copy; 2026 Marcinha<em>Flores</em>. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

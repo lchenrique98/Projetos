@@ -1,0 +1,181 @@
+
+{% extends 'floricultura/base.html' %}
+{% load static %}
+
+{% block titulo %}Detalhes do Produto - Floricultura{% endblock %}
+
+{% block cabecalho %}Detalhes do Produto{% endblock %}
+
+{% block descricao %}
+Visualize todas as informações do produto cadastrado.
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'floricultura/css/produtos.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="detalhes-topo">
+
+    <h2>{{ produto.nome }}</h2>
+
+    <a href="{% url 'produtos' %}" class="btn-voltar">
+        ← Voltar para produtos
+    </a>
+
+</div>
+
+
+<!-- INFORMAÇÕES PRINCIPAIS -->
+<div class="produto-detalhes-card">
+
+    <div class="produto-emoji">
+
+        {% if produto.categoria == 'flores' %}
+
+            <img src="https://img.icons8.com/?size=100&id=qD0T6kKIeGuG&format=png&color=000000" alt="Flores">
+
+        {% elif produto.categoria == 'plantas' %}
+
+            <img src="https://img.icons8.com/?size=100&id=OKMC0MrrQY5I&format=png&color=000000" alt="Plantas">
+
+        {% elif produto.categoria == 'vasos' %}
+
+            <img src="https://img.icons8.com/?size=100&id=htiHHBGrVppg&format=png&color=000000" alt="Vasos">
+
+        {% elif produto.categoria == 'adubos' %}
+
+            <img src="https://img.icons8.com/?size=100&id=c62DZQeXASri&format=png&color=000000" alt="Adubos">
+
+        {% elif produto.categoria == 'terras' %}
+
+            <img src="https://img.icons8.com/?size=100&id=39761&format=png&color=000000" alt="Terras">
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="produto-informacoes">
+
+        <span class="categoria">
+            {{ produto.get_categoria_display }}
+        </span>
+
+        <h2>{{ produto.nome }}</h2>
+
+        <p class="descricao">
+            {{ produto.descricao|default:"Nenhuma descrição cadastrada." }}
+        </p>
+
+        <div class="precos">
+
+            <div>
+                <span>Preço de custo</span>
+                <strong>
+                    R$ {{ produto.preco_custo|floatformat:2 }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Preço de venda</span>
+                <strong>
+                    R$ {{ produto.preco_venda|floatformat:2 }}
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- INFORMAÇÕES ADICIONAIS -->
+<div class="detalhes-secoes">
+
+    <div class="detalhes-card">
+
+        <h3>Informações do estoque</h3>
+
+        <div class="informacao">
+            <span>Quantidade disponível</span>
+            <strong>
+                {{ produto.quantidade_estoque }}
+                {{ produto.get_unidade_medida_display }}
+            </strong>
+        </div>
+
+        <div class="informacao">
+            <span>Estoque mínimo</span>
+            <strong>
+                {{ produto.estoque_minimo }}
+                {{ produto.get_unidade_medida_display }}
+            </strong>
+        </div>
+
+        <div class="informacao">
+            <span>Unidade de medida</span>
+            <strong>
+                {{ produto.get_unidade_medida_display }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <div class="detalhes-card">
+
+        <h3>Informações do fornecedor</h3>
+
+        {% if produto.fornecedor %}
+
+            <div class="informacao">
+                <span>Nome</span>
+                <strong>{{ produto.fornecedor.nome }}</strong>
+            </div>
+
+            <div class="informacao">
+                <span>CNPJ</span>
+                <strong>{{ produto.fornecedor.cnpj }}</strong>
+            </div>
+
+            <div class="informacao">
+                <span>Telefone</span>
+                <strong>{{ produto.fornecedor.telefone }}</strong>
+            </div>
+
+            <div class="informacao">
+                <span>E-mail</span>
+                <strong>{{ produto.fornecedor.email }}</strong>
+            </div>
+
+            <div class="informacao">
+                <span>Endereço</span>
+                <strong>{{ produto.fornecedor.endereco }}</strong>
+            </div>
+
+        {% else %}
+
+            <p>Nenhum fornecedor vinculado a este produto.</p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- DATA DE CADASTRO -->
+<div class="detalhes-rodape">
+
+    <span>Produto cadastrado em:</span>
+
+    <strong>
+        {{ produto.uploaded_at|date:"d/m/Y H:i" }}
+    </strong>
+
+</div>
+
+{% endblock %}

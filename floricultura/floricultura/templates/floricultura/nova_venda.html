@@ -1,0 +1,270 @@
+
+{% extends 'floricultura/base.html' %}
+{% load static %}
+
+{% block titulo %}Nova Venda - MarcinhaFlores{% endblock %}
+
+{% block cabecalho %}Nova Venda{% endblock %}
+
+{% block descricao %}
+Registre uma nova compra realizada na floricultura.
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'floricultura/css/vendas.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="venda-container">
+
+    <div class="venda-topo">
+        <div>
+            <h2>Registrar venda</h2>
+            <p>Selecione o cliente e adicione os produtos comprados.</p>
+        </div>
+
+        <a href="{% url 'vendas' %}" class="btn-voltar">
+            Voltar
+        </a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mensagem">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" id="formVenda">
+        {% csrf_token %}
+
+        <section class="venda-card">
+
+            <h3>1. Dados do cliente</h3>
+
+            <label for="cliente">Selecione o cliente</label>
+
+            <select name="cliente" id="cliente" required>
+                <option value="">Escolha um cliente</option>
+
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}">
+                        {{ cliente.nome }} - {{ cliente.cpf }}
+                    </option>
+                {% endfor %}
+            </select>
+
+        </section>
+
+
+        <section class="venda-card">
+
+            <h3>2. Produtos da compra</h3>
+
+            <div id="listaProdutos">
+
+                <div class="produto-linha">
+
+                    <div class="campo-produto">
+                        <label>Produto</label>
+
+                        <select name="produto" class="produto-select" required>
+                            <option value="">Selecione um produto</option>
+
+                            {% for produto in produtos %}
+                                <option
+                                    value="{{ produto.id }}"
+                                    data-preco="{{ produto.preco_venda|floatformat:2 }}"
+                                    data-estoque="{{ produto.quantidade_estoque }}"
+                                >
+                                    {{ produto.nome }} -
+                                    R$ {{ produto.preco_venda }}
+                                    (Estoque: {{ produto.quantidade_estoque }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="campo-quantidade">
+                        <label>Quantidade</label>
+                        <input
+                            type="number"
+                            name="quantidade"
+                            class="quantidade-input"
+                            min="1"
+                            value="1"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo-preco">
+                        <label>Subtotal</label>
+                        <span class="subtotal">R$ 0,00</span>
+                    </div>
+
+                    <button type="button" class="btn-remover"
+                        onclick="removerProduto(this)">
+                        ×
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button type="button" class="btn-adicionar"
+                onclick="adicionarProduto()">
+                + Adicionar outro produto
+            </button>
+
+        </section>
+
+
+        <section class="venda-card">
+
+            <h3>3. Pagamento e observações</h3>
+
+            <label for="forma_pagamento">Forma de pagamento</label>
+
+            <select name="forma_pagamento" id="forma_pagamento" required>
+                <option value="">Selecione</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">Pix</option>
+                <option value="cartao_credito">Cartão de crédito</option>
+                <option value="cartao_debito">Cartão de débito</option>
+                <option value="outro">Outro</option>
+            </select>
+
+            <label for="observacoes">Observações da compra</label>
+
+            <textarea
+                name="observacoes"
+                id="observacoes"
+                rows="4"
+                placeholder="Ex.: Compra para presente, entrega combinada pelo WhatsApp..."
+            ></textarea>
+
+        </section>
+
+
+        <section class="resumo-venda">
+
+            <div>
+                <span>Total da compra</span>
+                <strong id="totalVenda">R$ 0,00</strong>
+            </div>
+
+            <button type="submit" class="btn-finalizar">
+                Finalizar venda
+            </button>
+
+        </section>
+
+    </form>
+
+</div>
+
+
+<script>
+
+function formatarMoeda(valor) {
+    return valor.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+}
+
+function atualizarTotal() {
+
+    let total = 0;
+
+    document.querySelectorAll('.produto-linha').forEach(linha => {
+
+        const select = linha.querySelector('.produto-select');
+        const quantidadeInput = linha.querySelector('.quantidade-input');
+
+        const opcao = select.selectedOptions[0];
+
+        const preco = parseFloat(opcao?.dataset.preco || 0);
+        const quantidade = parseInt(quantidadeInput.value || 0);
+
+        const subtotal = preco * quantidade;
+
+        linha.querySelector('.subtotal').textContent =
+            formatarMoeda(subtotal);
+
+        total += subtotal;
+    });
+
+    document.getElementById('totalVenda').textContent =
+        formatarMoeda(total);
+}
+
+function adicionarProduto() {
+
+    const lista = document.getElementById('listaProdutos');
+    const primeiraLinha = lista.querySelector('.produto-linha');
+
+    const novaLinha = primeiraLinha.cloneNode(true);
+
+    novaLinha.querySelector('.produto-select').value = '';
+    novaLinha.querySelector('.quantidade-input').value = 1;
+    novaLinha.querySelector('.subtotal').textContent = 'R$ 0,00';
+
+    lista.appendChild(novaLinha);
+
+    atualizarTotal();
+}
+
+function removerProduto(botao) {
+
+    const linhas = document.querySelectorAll('.produto-linha');
+
+    if (linhas.length > 1) {
+        botao.closest('.produto-linha').remove();
+        atualizarTotal();
+    }
+}
+
+document.addEventListener('change', function(event) {
+    if (
+        event.target.classList.contains('produto-select') ||
+        event.target.classList.contains('quantidade-input')
+    ) {
+        atualizarTotal();
+    }
+});
+
+document.addEventListener('input', function(event) {
+    if (event.target.classList.contains('quantidade-input')) {
+        atualizarTotal();
+    }
+});
+
+document.getElementById('formVenda').addEventListener('submit', function(event) {
+
+    const linhas = document.querySelectorAll('.produto-linha');
+
+    for (const linha of linhas) {
+
+        const select = linha.querySelector('.produto-select');
+        const quantidadeInput = linha.querySelector('.quantidade-input');
+
+        const quantidade = parseInt(quantidadeInput.value || 0);
+        const estoque = parseInt(
+            select.selectedOptions[0]?.dataset.estoque || 0
+        );
+
+        if (!select.value || quantidade <= 0 || quantidade > estoque) {
+            event.preventDefault();
+            alert('Confira os produtos e as quantidades. Verifique também o estoque disponível.');
+            return;
+        }
+    }
+
+});
+
+</script>
+
+{% endblock %}

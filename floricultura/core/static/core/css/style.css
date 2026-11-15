@@ -1,0 +1,418 @@
+/* =========================================================
+   MarcinhaFlores — Página inicial "Bordô & Creme"
+   Arquivo: core/static/core/css/style.css
+   ========================================================= */
+
+:root {
+    --creme:        #F7F1EA;
+    --bordo:        #6E1F33;
+    --bordo-escuro: #4F1424;
+    --tinta:        #2A1A1E;
+    --texto-2:      #5C4A4F;
+    --texto-3:      #7A6268;
+    --linha:        #E6D9D0;
+    --fonte-titulo: 'Cormorant Garamond', Georgia, serif;
+    --fonte-texto:  'Jost', 'Segoe UI', Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte-texto);
+    background: var(--creme);
+    color: var(--tinta);
+    -webkit-font-smoothing: antialiased;
+}
+
+@keyframes surgir {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoom-lento {
+    from { transform: scale(1.06); }
+    to   { transform: scale(1); }
+}
+
+/* MENU */
+.home-nav {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.home-marca {
+    font-family: var(--fonte-titulo);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--tinta);
+    text-decoration: none;
+}
+
+.home-marca em {
+    color: var(--bordo);
+    font-weight: 500;
+}
+
+.home-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 28px;
+}
+
+.home-links a {
+    color: var(--tinta);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.home-links a:not(.home-btn-contorno):hover {
+    color: var(--bordo);
+}
+
+.home-btn-contorno {
+    padding: 11px 20px;
+    border: 1px solid var(--tinta);
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.home-btn-contorno:hover {
+    background: var(--tinta);
+    color: #FFF8F3 !important;
+}
+
+/* HERÓI */
+.home-hero {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 32px 0;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 40px;
+    align-items: center;
+}
+
+.home-texto {
+    grid-column: span 6;
+    animation: surgir 0.6s ease both;
+}
+
+.home-sobretitulo {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--bordo);
+}
+
+.home-texto h1 {
+    margin: 22px 0;
+    font-family: var(--fonte-titulo);
+    font-size: 88px;
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+}
+
+.home-texto h1 em {
+    color: var(--bordo);
+}
+
+.home-texto p {
+    max-width: 470px;
+    margin-bottom: 32px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--texto-2);
+}
+
+.home-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-btn-principal {
+    padding: 16px 28px;
+    border-radius: 999px;
+    background: var(--bordo);
+    color: #FFF8F3;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.home-btn-principal:hover {
+    background: var(--bordo-escuro);
+    transform: translateY(-2px);
+}
+
+.home-btn-link {
+    padding: 16px 24px;
+    color: var(--bordo);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.home-btn-link:hover {
+    text-decoration: underline;
+}
+
+/* FOTO EM ARCO */
+.home-foto {
+    grid-column: span 6;
+    position: relative;
+    animation: surgir 0.6s ease 0.1s both;
+}
+
+.home-foto img {
+    display: block;
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    border-radius: 280px 280px 18px 18px;
+    animation: zoom-lento 8s ease forwards;
+}
+
+.home-proxima {
+    position: absolute;
+    left: -28px;
+    bottom: 36px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 16px 40px rgba(42, 26, 30, 0.16);
+}
+
+.home-proxima span {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bordo);
+}
+
+.home-proxima a,
+.home-proxima strong {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--fonte-titulo);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--tinta);
+    text-decoration: none;
+}
+
+.home-proxima a:hover {
+    color: var(--bordo);
+}
+
+/* ENCOMENDA RÁPIDA */
+.home-rapida {
+    max-width: 1176px;
+    margin: 56px auto 0;
+    padding: 0 32px;
+}
+
+.home-form {
+    position: relative;
+    padding: 36px 28px 24px;
+    border-radius: 16px;
+    background: #FFFFFF;
+    box-shadow: 0 20px 50px rgba(42, 26, 30, 0.1);
+    animation: surgir 0.6s ease 0.2s both;
+}
+
+.home-selo {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 20px;
+    border-radius: 999px;
+    background: var(--bordo);
+    color: #FFF8F3;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.home-campos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.home-campos label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.home-campos label span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--texto-3);
+}
+
+.home-campos input,
+.home-campos select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--linha);
+    border-radius: 8px;
+    background: #FFFDFB;
+    color: var(--tinta);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.home-campos input::placeholder {
+    color: #A8959A;
+}
+
+.home-campos input:focus,
+.home-campos select:focus {
+    border-color: var(--bordo);
+    box-shadow: 0 0 0 4px rgba(110, 31, 51, 0.08);
+}
+
+.home-form button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 16px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--tinta);
+    color: #FFF8F3;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.home-form button:hover {
+    background: var(--bordo);
+}
+
+.home-form p {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--texto-3);
+}
+
+/* NÚMEROS */
+.home-numeros {
+    max-width: 1176px;
+    margin: 0 auto;
+    padding: 56px 32px 72px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    text-align: center;
+}
+
+.home-numeros strong {
+    display: block;
+    font-family: var(--fonte-titulo);
+    font-size: 52px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.home-numeros span {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--texto-3);
+}
+
+/* RODAPÉ */
+.home-rodape {
+    border-top: 1px solid var(--linha);
+    padding: 24px 32px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--texto-3);
+}
+
+.home-rodape em {
+    font-family: var(--fonte-titulo);
+    font-size: 15px;
+    color: var(--bordo);
+}
+
+/* RESPONSIVO */
+@media (max-width: 1000px) {
+    .home-texto,
+    .home-foto {
+        grid-column: span 12;
+    }
+
+    .home-texto h1 {
+        font-size: 64px;
+    }
+
+    .home-foto img {
+        height: 420px;
+    }
+
+    .home-proxima {
+        left: 16px;
+    }
+
+    .home-campos,
+    .home-numeros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-numeros {
+        row-gap: 36px;
+    }
+}
+
+@media (max-width: 560px) {
+    .home-nav,
+    .home-hero,
+    .home-rapida,
+    .home-numeros {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .home-texto h1 {
+        font-size: 48px;
+    }
+
+    .home-campos {
+        grid-template-columns: 1fr;
+    }
+}

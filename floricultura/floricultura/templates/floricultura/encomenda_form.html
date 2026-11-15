@@ -1,0 +1,193 @@
+{% extends 'floricultura/base.html' %}
+{% load static %}
+
+{% block titulo %}{% if nova %}Nova encomenda{% else %}Editar encomenda #{{ encomenda.id }}{% endif %} | MarcinhaFlores{% endblock %}
+
+{% block cabecalho %}{% if nova %}Nova encomenda{% else %}Editar encomenda #{{ encomenda.id }}{% endif %}{% endblock %}
+
+{% block descricao %}
+Registre o pedido, a data combinada e quanto o cliente já pagou.
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'floricultura/css/encomendas.css' %}?v=1">
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="enc-voltar">
+    {% if nova %}
+        <a href="{% url 'encomendas' %}" class="btn-voltar">← Voltar para encomendas</a>
+    {% else %}
+        <a href="{% url 'detalhes_encomenda' encomenda.id %}" class="btn-voltar">← Voltar</a>
+    {% endif %}
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="mensagem {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="POST" class="enc-form" id="formEncomenda">
+    {% csrf_token %}
+
+    <!-- 1. CLIENTE E PEDIDO -->
+    <section class="enc-bloco">
+        <h3><span>1</span> Cliente e pedido</h3>
+
+        <div class="campo">
+            <label for="cliente">Cliente *</label>
+            <select name="cliente" id="cliente" required>
+                <option value="">Selecione o cliente</option>
+                {% for c in clientes %}
+                    <option value="{{ c.id }}"
+                            data-endereco="{{ c.rua }}, {{ c.numero_casa }}{% if c.complemento %} - {{ c.complemento }}{% endif %} - {{ c.bairro }}, {{ c.cidade }}/{{ c.estado }}"
+                            {% if valores.cliente == c.id|stringformat:"s" %}selected{% endif %}>
+                        {{ c.nome }} — {{ c.telefone }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="descricao">O que foi encomendado *</label>
+            <textarea name="descricao" id="descricao" rows="4" required
+                      placeholder="Ex.: Buquê com 24 rosas vermelhas e gipsofila, papel kraft e laço dourado. Cartão: 'Feliz aniversário, Ana!'">{{ valores.descricao }}</textarea>
+        </div>
+    </section>
+
+    <!-- 2. ENTREGA -->
+    <section class="enc-bloco">
+        <h3><span>2</span> Data e entrega</h3>
+
+        <div class="grade-2">
+            <div class="campo">
+                <label for="data_entrega">Data *</label>
+                <input type="date" name="data_entrega" id="data_entrega" required
+                       value="{{ valores.data_entrega }}"
+                       {% if nova %}min="{{ hoje|date:'Y-m-d' }}"{% endif %}>
+            </div>
+
+            <div class="campo">
+                <label for="hora_entrega">Horário <small>(opcional)</small></label>
+                <input type="time" name="hora_entrega" id="hora_entrega"
+                       value="{{ valores.hora_entrega }}">
+            </div>
+        </div>
+
+        <div class="campo">
+            <label>Como o cliente vai receber? *</label>
+            <div class="opcoes-entrega">
+                {% for codigo, nome in tipos_entrega %}
+                <label class="opcao">
+                    <input type="radio" name="tipo_entrega" value="{{ codigo }}"
+                           {% if valores.tipo_entrega == codigo %}checked{% endif %}>
+                    <span>{% if codigo == 'entrega' %} <img src="https://img.icons8.com/?size=100&id=rZ0MpRu2IFde&format=png&color=000000" alt="Entrega"> {% else %} <img src="https://img.icons8.com/?size=100&id=otpzpkYkq41A&format=png&color=000000" alt="Retirada"> {% endif %} {{ nome }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="campo" id="campoEndereco">
+            <label for="endereco_entrega">Endereço de entrega *</label>
+            <div class="endereco-linha">
+                <input type="text" name="endereco_entrega" id="endereco_entrega"
+                       value="{{ valores.endereco_entrega }}"
+                       placeholder="Rua, número - bairro, cidade">
+                <button type="button" class="btn-secundario" id="usarEndereco">
+                    Usar endereço do cliente
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. PAGAMENTO -->
+    <section class="enc-bloco">
+        <h3><span>3</span> Pagamento</h3>
+
+        <div class="grade-3">
+            <div class="campo">
+                <label for="valor">Valor total (R$) *</label>
+                <input type="number" name="valor" id="valor" step="0.01" min="0.01" required
+                       value="{{ valores.valor }}" placeholder="0,00">
+            </div>
+
+            <div class="campo">
+                <label for="sinal">Sinal / já pago (R$)</label>
+                <input type="number" name="sinal" id="sinal" step="0.01" min="0"
+                       value="{{ valores.sinal }}" placeholder="0,00">
+            </div>
+
+            <div class="campo">
+                <label>Falta pagar</label>
+                <div class="saldo" id="saldo">R$ 0,00</div>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label for="observacoes">Observações</label>
+            <textarea name="observacoes" id="observacoes" rows="3"
+                      placeholder="Ex.: ligar antes de sair para entrega, cliente prefere tons de rosa...">{{ valores.observacoes }}</textarea>
+        </div>
+    </section>
+
+    <div class="enc-form-acoes">
+        <button type="submit" class="btn-principal">
+            {% if nova %}Cadastrar encomenda{% else %}Salvar alterações{% endif %}
+        </button>
+    </div>
+</form>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+(function () {
+    const radios = document.querySelectorAll('input[name="tipo_entrega"]');
+    const campoEndereco = document.getElementById('campoEndereco');
+    const endereco = document.getElementById('endereco_entrega');
+    const cliente = document.getElementById('cliente');
+    const valor = document.getElementById('valor');
+    const sinal = document.getElementById('sinal');
+    const saldo = document.getElementById('saldo');
+
+    // mostra o endereço só quando for entrega
+    function atualizarEntrega() {
+        const entrega = document.querySelector('input[name="tipo_entrega"]:checked')?.value === 'entrega';
+        campoEndereco.style.display = entrega ? '' : 'none';
+        endereco.required = entrega;
+
+        // primeira vez que escolhe entrega: já puxa o endereço do cliente
+        if (entrega && !endereco.value) usarEnderecoCliente();
+    }
+
+    function usarEnderecoCliente() {
+        const opcao = cliente.selectedOptions[0];
+        if (opcao && opcao.dataset.endereco) endereco.value = opcao.dataset.endereco;
+    }
+
+    // calcula quanto falta pagar
+    function atualizarSaldo() {
+        const v = parseFloat(valor.value) || 0;
+        const s = parseFloat(sinal.value) || 0;
+        const falta = Math.max(v - s, 0);
+        saldo.textContent = falta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        saldo.classList.toggle('pago', v > 0 && falta === 0);
+        sinal.classList.toggle('invalido', s > v && v > 0);
+    }
+
+    radios.forEach(r => r.addEventListener('change', atualizarEntrega));
+    document.getElementById('usarEndereco').addEventListener('click', usarEnderecoCliente);
+    cliente.addEventListener('change', () => {
+        if (document.querySelector('input[name="tipo_entrega"]:checked')?.value === 'entrega') usarEnderecoCliente();
+    });
+    valor.addEventListener('input', atualizarSaldo);
+    sinal.addEventListener('input', atualizarSaldo);
+
+    atualizarEntrega();
+    atualizarSaldo();
+})();
+</script>
+{% endblock %}

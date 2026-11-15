@@ -1,0 +1,320 @@
+/* =========================================================
+   MarcinhaFlores — tema "Bordô & Creme"
+   Arquivo: floricultura/static/floricultura/css/style.css
+   Base de todas as telas do sistema: cores, fontes,
+   menu no topo, cabeçalho, rodapé e campos.
+   ========================================================= */
+
+:root {
+    --creme:        #F7F1EA;
+    --creme-2:      #FBF6F2;
+    --creme-3:      #F3E6E2;
+    --branco:       #FFFFFF;
+    --bordo:        #6E1F33;
+    --bordo-escuro: #4F1424;
+    --bordo-claro:  #8C2F45;
+    --tinta:        #2A1A1E;
+    --texto:        #2A1A1E;
+    --texto-2:      #5C4A4F;
+    --texto-3:      #7A6268;
+    --linha:        #E6D9D0;
+    --raio:         16px;
+    --sombra-card:  0 20px 50px rgba(42, 26, 30, 0.08);
+    --fonte-titulo: 'Cormorant Garamond', Georgia, serif;
+    --fonte-texto:  'Jost', 'Segoe UI', Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte-texto);
+    background: var(--creme);
+    color: var(--tinta);
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: var(--bordo);
+}
+
+a:hover {
+    color: var(--bordo-escuro);
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--fonte-titulo);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+}
+
+/* MENU NO TOPO */
+.topo {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247, 241, 234, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--linha);
+}
+
+.topo-interno {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 28px;
+}
+
+.marca {
+    font-family: var(--fonte-titulo);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--tinta);
+    text-decoration: none;
+}
+
+.marca em {
+    color: var(--bordo);
+    font-weight: 500;
+}
+
+.marca:hover {
+    color: var(--tinta);
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 26px;
+}
+
+.menu a {
+    position: relative;
+    padding: 6px 0;
+    color: var(--tinta);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5px;
+    background: var(--bordo);
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+}
+
+.menu a:hover::after,
+.menu a.ativo::after {
+    transform: scaleX(1);
+}
+
+.menu a.ativo {
+    color: var(--bordo);
+}
+
+.topo-acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.topo-botao {
+    padding: 11px 20px;
+    border: 1px solid var(--tinta);
+    border-radius: 999px;
+    color: var(--tinta);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.topo-botao:hover {
+    background: var(--tinta);
+    color: #FFF8F3;
+}
+
+.topo-botao.principal {
+    background: var(--bordo);
+    border-color: var(--bordo);
+    color: #FFF8F3;
+    font-weight: 600;
+}
+
+.topo-botao.principal:hover {
+    background: var(--bordo-escuro);
+    border-color: var(--bordo-escuro);
+}
+
+/* CONTEÚDO */
+.conteudo {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px;
+    min-height: calc(100vh - 160px);
+}
+
+/* CABEÇALHO DE CADA TELA */
+header {
+    padding: 52px 0 32px;
+}
+
+.sobretitulo {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--bordo);
+    margin-bottom: 14px;
+}
+
+header h1 {
+    font-family: var(--fonte-titulo);
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 0.98;
+    color: var(--tinta);
+    margin-bottom: 14px;
+}
+
+header p {
+    max-width: 620px;
+    color: var(--texto-2);
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+/* ÁREA PRINCIPAL */
+main {
+    padding: 0 0 56px;
+}
+
+main h2 {
+    font-size: 30px;
+    margin-bottom: 22px;
+    color: var(--tinta);
+}
+
+/* CARDS GENÉRICOS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: var(--branco);
+    border-radius: var(--raio);
+    padding: 28px;
+    min-height: 170px;
+    box-shadow: var(--sombra-card);
+    transition: transform 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+.card span {
+    font-size: 30px;
+}
+
+.card h3 {
+    font-size: 24px;
+    margin: 15px 0 8px;
+    color: var(--tinta);
+}
+
+.card p {
+    color: var(--texto-2);
+    font-size: 14px;
+}
+
+/* CAMPOS (padrão para todas as telas) */
+input,
+select,
+textarea,
+button {
+    font-family: var(--fonte-texto);
+}
+
+input,
+select,
+textarea {
+    color: var(--tinta);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #A8959A;
+}
+
+/* RODAPÉ */
+footer {
+    border-top: 1px solid var(--linha);
+    padding: 24px 32px;
+    text-align: center;
+    color: var(--texto-3);
+    font-size: 13px;
+}
+
+footer em {
+    font-family: var(--fonte-titulo);
+    font-size: 15px;
+    color: var(--bordo);
+}
+
+/* RESPONSIVO */
+@media (max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header h1 {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 700px) {
+    .topo {
+        position: static;
+    }
+
+    .topo-interno,
+    .conteudo {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .menu {
+        order: 3;
+        width: 100%;
+        gap: 4px 18px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding-top: 32px;
+    }
+
+    header h1 {
+        font-size: 40px;
+    }
+}

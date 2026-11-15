@@ -1,0 +1,490 @@
+/* =========================================
+   FORNECEDORES - MarcinhaFlores
+   ========================================= */
+
+:root {
+    /* paleta antiga remapeada para o tema Bordô & Creme */
+    --verde-900: #2A1A1E;   /* tinta (títulos) */
+    --verde-700: #6E1F33;   /* bordô */
+    --verde-600: #6E1F33;
+    --verde-500: #8C2F45;   /* bordô claro */
+    --verde-100: #F3E6E2;   /* rosado claro */
+    --verde-50:  #FBF6F2;   /* creme claro */
+    --texto:     #2A1A1E;
+    --texto-2:   #5C4A4F;
+    --texto-3:   #7A6268;
+    --borda:     #EADFD7;
+    --vermelho:  #B3261E;
+    --sombra:    0 1px 2px rgba(42, 26, 30, 0.03), 0 18px 44px rgba(42, 26, 30, 0.07);
+    --raio:      16px;
+}
+
+/* ===== ANIMAÇÃO DE ENTRADA ===== */
+
+@keyframes surgir {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== ALERTAS ===== */
+
+.alerta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    font-size: 14px;
+    font-weight: 500;
+    border-left: 4px solid;
+    animation: surgir 0.35s ease;
+}
+
+.alerta::before {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.alerta-success {
+    background: #FBF6F2;
+    color: #6E1F33;
+    border-color: #8C2F45;
+}
+
+.alerta-success::before { content: "✓"; }
+
+.alerta-error,
+.alerta-danger {
+    background: #fdeeed;
+    color: #a3302a;
+    border-color: #d64b42;
+}
+
+.alerta-error::before,
+.alerta-danger::before { content: "!"; }
+
+/* ===== CARD ===== */
+
+.card-fornecedor {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    padding: 32px;
+    margin-bottom: 28px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+    animation: surgir 0.4s ease both;
+}
+
+.card-fornecedor + .card-fornecedor {
+    animation-delay: 0.08s;
+}
+
+/* faixa verde no topo do card */
+.card-fornecedor::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--verde-700), var(--verde-500), #D9A5B2);
+}
+
+.card-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.card-topo h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--verde-900);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+}
+
+.card-topo p {
+    font-size: 14px;
+    color: var(--texto-3);
+}
+
+.contador {
+    background: var(--verde-100);
+    color: var(--verde-700);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ===== FORMULÁRIO ===== */
+
+.form-fornecedor {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    counter-reset: etapa;
+}
+
+/* cada grupo vira um bloco suave */
+.grupo-form {
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    padding: 22px 22px 24px;
+    margin: 0;
+    background: var(--verde-50);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+/* destaca o grupo que está sendo preenchido */
+.grupo-form:focus-within {
+    background: #ffffff;
+    border-color: #E6D9D0;
+    box-shadow: 0 0 0 4px rgba(110, 31, 51, 0.08);
+}
+
+/* título do grupo com número (1, 2, 3) */
+.grupo-form legend {
+    counter-increment: etapa;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px;
+    margin-left: -8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--verde-700);
+}
+
+.grupo-form legend::before {
+    content: counter(etapa);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--verde-600);
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 0;
+}
+
+.grade {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 6px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.grupo-form > .campo {
+    margin-top: 6px;
+}
+
+.campo label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--texto-2);
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--borda);
+    border-radius: 11px;
+    background: #ffffff;
+    color: var(--texto);
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 96px;
+    line-height: 1.5;
+}
+
+.campo input:hover,
+.campo textarea:hover {
+    border-color: #E6D9D0;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    border-color: var(--verde-500);
+    box-shadow: 0 0 0 4px rgba(110, 31, 51, 0.15);
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+    color: #A8959A;
+}
+
+/* campo preenchido corretamente ganha borda verde */
+.campo input:not(:placeholder-shown):valid,
+.campo textarea:not(:placeholder-shown):valid {
+    border-color: #E6D9D0;
+}
+
+.campo input.invalido {
+    border-color: #d64b42;
+    box-shadow: 0 0 0 4px rgba(214, 75, 66, 0.12);
+    animation: tremer 0.3s;
+}
+
+@keyframes tremer {
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+.dica {
+    font-size: 12px;
+    color: var(--texto-3);
+}
+
+/* ===== BOTÕES ===== */
+
+.form-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.btn-cadastrar,
+.btn-limpar {
+    padding: 14px 26px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cadastrar {
+    background: var(--verde-700);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 6px 16px rgba(110, 31, 51, 0.25);
+}
+
+.btn-cadastrar::after {
+    content: " →";
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.btn-cadastrar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(110, 31, 51, 0.32);
+}
+
+.btn-cadastrar:hover::after {
+    transform: translateX(4px);
+}
+
+.btn-cadastrar:active {
+    transform: translateY(0);
+}
+
+.btn-limpar {
+    background: #ffffff;
+    color: var(--texto-2);
+    border: 1.5px solid var(--borda);
+}
+
+.btn-limpar:hover {
+    background: #FBF6F2;
+    border-color: #E6D9D0;
+}
+
+/* ===== PESQUISA ===== */
+
+.pesquisa input {
+    width: 100%;
+    max-width: 440px;
+    padding: 13px 16px 13px 44px;
+    border: 1.5px solid var(--borda);
+    border-radius: 999px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background: #FBF6F2 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%2394a39a' stroke-width='2' stroke-linecap='round' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 16px center;
+    transition: 0.2s;
+}
+
+.pesquisa input:focus {
+    background-color: #ffffff;
+    border-color: var(--verde-500);
+    box-shadow: 0 0 0 4px rgba(110, 31, 51, 0.12);
+}
+
+/* ===== TABELA ===== */
+
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+}
+
+.tabela-fornecedores {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-fornecedores th {
+    background: var(--verde-50);
+    color: var(--verde-700);
+    text-align: left;
+    padding: 14px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--borda);
+}
+
+.tabela-fornecedores td {
+    padding: 16px 18px;
+    border-bottom: 1px solid #EADFD7;
+    color: var(--texto-2);
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.tabela-fornecedores tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabela-fornecedores tbody tr {
+    transition: background 0.15s;
+}
+
+.tabela-fornecedores tbody tr:hover {
+    background: #FBF6F2;
+}
+
+.fornecedor-nome {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.fornecedor-nome strong {
+    display: block;
+    color: var(--verde-900);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.fornecedor-nome small {
+    display: block;
+    color: var(--texto-3);
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* avatar com cores que variam por linha */
+.avatar {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    background: var(--verde-700);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(110, 31, 51, 0.2);
+}
+
+.tabela-fornecedores tbody tr:nth-child(4n+2) .avatar { background: linear-gradient(135deg, #f19bb5, #c2416c); box-shadow: 0 4px 10px rgba(194, 65, 108, 0.2); }
+.tabela-fornecedores tbody tr:nth-child(4n+3) .avatar { background: linear-gradient(135deg, #f6c56b, #d48a1c); box-shadow: 0 4px 10px rgba(212, 138, 28, 0.2); }
+.tabela-fornecedores tbody tr:nth-child(4n+4) .avatar { background: linear-gradient(135deg, #a99cf0, #6750c9); box-shadow: 0 4px 10px rgba(103, 80, 201, 0.2); }
+
+.cnpj {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 13px;
+    white-space: nowrap;
+    color: var(--texto);
+}
+
+.link-email {
+    color: var(--verde-600);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 4px 10px;
+    margin-left: -10px;
+    border-radius: 8px;
+    transition: background 0.15s;
+}
+
+.link-email:hover {
+    background: var(--verde-100);
+}
+
+.sem-registros {
+    text-align: center;
+    padding: 48px 20px !important;
+    color: var(--texto-3) !important;
+    font-size: 15px !important;
+}
+
+.sem-registros::before {
+    content: "🌿";
+    display: block;
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 760px) {
+    .grade {
+        grid-template-columns: 1fr;
+    }
+
+    .card-fornecedor {
+        padding: 22px 18px;
+    }
+
+    .grupo-form {
+        padding: 18px 16px 20px;
+    }
+
+    .form-acoes {
+        flex-direction: column-reverse;
+    }
+
+    .btn-cadastrar,
+    .btn-limpar {
+        width: 100%;
+    }
+
+    .pesquisa input {
+        max-width: none;
+    }
+}

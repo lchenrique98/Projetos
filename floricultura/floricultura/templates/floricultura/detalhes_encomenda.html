@@ -1,0 +1,129 @@
+{% extends 'floricultura/base.html' %}
+{% load static %}
+
+{% block titulo %}Encomenda #{{ encomenda.id }} | MarcinhaFlores{% endblock %}
+
+{% block cabecalho %}Encomenda #{{ encomenda.id }}{% endblock %}
+
+{% block descricao %}
+Cadastrada em {{ encomenda.criado_em|date:"d/m/Y \à\s H:i" }}.
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'floricultura/css/encomendas.css' %}?v=1">
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="enc-voltar">
+    <a href="{% url 'encomendas' %}" class="btn-voltar">← Voltar para encomendas</a>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="mensagem {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<!-- CABEÇALHO + ANDAMENTO -->
+<section class="enc-bloco enc-cabecalho status-{{ encomenda.status }}">
+
+    <div class="enc-cabecalho-topo">
+        <div>
+            <span class="enc-status {{ encomenda.status }}">{{ encomenda.get_status_display }}</span>
+            {% if encomenda.atrasada %}<span class="enc-data atrasada">⚠ Atrasada</span>{% endif %}
+            <h2>{{ encomenda.cliente.nome }}</h2>
+            <p>
+                {% if encomenda.tipo_entrega == 'entrega' %}<img src="https://img.icons8.com/?size=100&id=rZ0MpRu2IFde&format=png&color=000000" alt="Entrega"> Entrega{% else %} <img src="https://img.icons8.com/?size=100&id=otpzpkYkq41A&format=png&color=000000" alt="Retirada"> Retirada na loja{% endif %}
+                em <strong>{{ encomenda.data_entrega|date:"l, d/m/Y" }}</strong>
+                {% if encomenda.hora_entrega %} às <strong>{{ encomenda.hora_entrega|time:"H:i" }}</strong>{% endif %}
+            </p>
+        </div>
+
+        <div class="enc-cabecalho-acoes">
+            {% if encomenda.proximo_status %}
+            <form method="POST" action="{% url 'mudar_status_encomenda' encomenda.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="{{ encomenda.proximo_status }}">
+                <button type="submit" class="btn-principal">→ Marcar como {{ encomenda.proximo_status_display }}</button>
+            </form>
+            {% endif %}
+
+            {% if not encomenda.finalizada %}
+            <a href="{% url 'editar_encomenda' encomenda.id %}" class="btn-secundario">Editar</a>
+
+            <form method="POST" action="{% url 'mudar_status_encomenda' encomenda.id %}"
+                  onsubmit="return confirm('Cancelar esta encomenda?');">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="cancelada">
+                <button type="submit" class="btn-cancelar">Cancelar</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if encomenda.status != 'cancelada' %}
+    <ol class="enc-passos">
+        {% for passo in passos %}
+        <li class="{% if passo.feito %}feito{% endif %} {% if passo.atual %}atual{% endif %}">
+            <span class="bolinha">{% if passo.feito and not passo.atual %}✓{% else %}{{ forloop.counter }}{% endif %}</span>
+            <span class="rotulo">{{ passo.nome }}</span>
+        </li>
+        {% endfor %}
+    </ol>
+    {% else %}
+    <p class="enc-cancelada-aviso">Esta encomenda foi cancelada.</p>
+    {% endif %}
+</section>
+
+<div class="enc-detalhes-grade">
+
+    <!-- PEDIDO -->
+    <section class="enc-bloco">
+        <h3>Pedido</h3>
+        <p class="enc-texto">{{ encomenda.descricao|linebreaksbr }}</p>
+
+        {% if encomenda.observacoes %}
+        <h4>Observações</h4>
+        <p class="enc-texto suave">{{ encomenda.observacoes|linebreaksbr }}</p>
+        {% endif %}
+    </section>
+
+    <!-- PAGAMENTO -->
+    <section class="enc-bloco">
+        <h3>Pagamento</h3>
+
+        <div class="enc-linha"><span>Valor total</span><strong>R$ {{ encomenda.valor|floatformat:"2g" }}</strong></div>
+        <div class="enc-linha"><span>Sinal / já pago</span><strong>R$ {{ encomenda.sinal|floatformat:"2g" }}</strong></div>
+        <div class="enc-linha total">
+            <span>Falta pagar</span>
+            <strong class="{% if encomenda.saldo == 0 %}pago{% endif %}">
+                {% if encomenda.saldo == 0 %}Pago ✓{% else %}R$ {{ encomenda.saldo|floatformat:"2g" }}{% endif %}
+            </strong>
+        </div>
+    </section>
+
+    <!-- CLIENTE / ENTREGA -->
+    <section class="enc-bloco">
+        <h3>Cliente</h3>
+
+        <div class="enc-linha"><span>Nome</span><strong>{{ encomenda.cliente.nome }}</strong></div>
+        <div class="enc-linha"><span>Telefone</span><strong>{{ encomenda.cliente.telefone }}</strong></div>
+        {% if encomenda.tipo_entrega == 'entrega' %}
+        <div class="enc-linha"><span>Entregar em</span><strong>{{ encomenda.endereco_entrega }}</strong></div>
+        {% endif %}
+
+        <div class="enc-links">
+            <a href="{% url 'detalhes_cliente' encomenda.cliente.id %}" class="btn-secundario">Ver cliente</a>
+            <a href="https://wa.me/55{{ encomenda.cliente.telefone|cut:'('|cut:')'|cut:'-'|cut:' ' }}"
+               target="_blank" rel="noopener noreferrer" class="btn-whatsapp">WhatsApp</a>
+            {% if encomenda.tipo_entrega == 'entrega' %}
+            <a href="https://www.google.com/maps/search/?api=1&query={{ encomenda.endereco_entrega|urlencode }}"
+               target="_blank" rel="noopener noreferrer" class="btn-secundario">Abrir no mapa</a>
+            {% endif %}
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

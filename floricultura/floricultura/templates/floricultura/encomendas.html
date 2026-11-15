@@ -1,0 +1,135 @@
+{% extends 'floricultura/base.html' %}
+{% load static %}
+
+{% block titulo %}Encomendas | MarcinhaFlores{% endblock %}
+
+{% block cabecalho %}Encomendas{% endblock %}
+
+{% block descricao %}
+Pedidos especiais com data marcada para retirada ou entrega.
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'floricultura/css/encomendas.css' %}?v=1">
+{% endblock %}
+
+{% block conteudo %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="mensagem {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<!-- TOPO -->
+<div class="enc-topo">
+    <div class="enc-resumo">
+        <div class="enc-mini {% if qtd_atrasadas %}perigo{% endif %}">
+            <strong>{{ qtd_atrasadas }}</strong>
+            <span>Atrasada{{ qtd_atrasadas|pluralize }}</span>
+        </div>
+        <div class="enc-mini destaque">
+            <strong>{{ qtd_hoje }}</strong>
+            <span>Para hoje</span>
+        </div>
+        <div class="enc-mini">
+            <strong>{{ qtd_semana }}</strong>
+            <span>Próximos 7 dias</span>
+        </div>
+    </div>
+
+    <a href="{% url 'nova_encomenda' %}" class="btn-principal">+ Nova encomenda</a>
+</div>
+
+<!-- FILTROS -->
+<section class="enc-filtros">
+    <nav class="enc-abas">
+        {% for codigo, nome, total in abas %}
+            <a href="?status={{ codigo }}{% if pesquisa %}&pesquisa={{ pesquisa|urlencode }}{% endif %}"
+               class="enc-aba {% if filtro == codigo %}ativa{% endif %}">
+                {{ nome }} <span>{{ total }}</span>
+            </a>
+        {% endfor %}
+    </nav>
+
+    <form method="GET" class="enc-pesquisa">
+        <input type="hidden" name="status" value="{{ filtro }}">
+        <input type="text" name="pesquisa" value="{{ pesquisa }}"
+               placeholder="Buscar por cliente ou descrição...">
+    </form>
+</section>
+
+<!-- LISTA -->
+{% if encomendas %}
+<section class="enc-grade">
+
+    {% for e in encomendas %}
+    <article class="enc-card status-{{ e.status }} {% if e.atrasada %}atrasada{% endif %}">
+
+        <div class="enc-card-topo">
+            <span class="enc-data
+                {% if e.atrasada %}atrasada{% elif e.data_entrega == hoje %}hoje{% elif e.data_entrega == amanha %}amanha{% endif %}">
+                {% if e.atrasada %}
+                    ⚠ Atrasada · {{ e.data_entrega|date:"d/m" }}
+                {% elif e.data_entrega == hoje %}
+                    Hoje
+                {% elif e.data_entrega == amanha %}
+                    Amanhã
+                {% else %}
+                    {{ e.data_entrega|date:"D, d/m" }}
+                {% endif %}
+                {% if e.hora_entrega %} · {{ e.hora_entrega|time:"H:i" }}{% endif %}
+            </span>
+
+            <span class="enc-status {{ e.status }}">{{ e.get_status_display }}</span>
+        </div>
+
+        <h3>{{ e.cliente.nome }}</h3>
+        <p class="enc-descricao">{{ e.descricao|truncatechars:110 }}</p>
+
+        <div class="enc-info">
+            <span>{% if e.tipo_entrega == 'entrega' %} <img src="https://img.icons8.com/?size=100&id=rZ0MpRu2IFde&format=png&color=000000" alt="Entrega"> {% else %} <img src="https://img.icons8.com/?size=100&id=otpzpkYkq41A&format=png&color=000000" alt="Retirada"> {% endif %}</span>
+            <span>#{{ e.id }}</span>
+        </div>
+
+        <div class="enc-valores">
+            <div>
+                <small>Valor</small>
+                <strong>R$ {{ e.valor|floatformat:"2g" }}</strong>
+            </div>
+            <div>
+                <small>Falta pagar</small>
+                <strong class="{% if e.saldo == 0 %}pago{% endif %}">
+                    {% if e.saldo == 0 %}Pago ✓{% else %}R$ {{ e.saldo|floatformat:"2g" }}{% endif %}
+                </strong>
+            </div>
+        </div>
+
+        <div class="enc-acoes">
+            <a href="{% url 'detalhes_encomenda' e.id %}" class="btn-secundario">Detalhes</a>
+
+            {% if e.proximo_status %}
+            <form method="POST" action="{% url 'mudar_status_encomenda' e.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="{{ e.proximo_status }}">
+                <input type="hidden" name="voltar" value="lista">
+                <button type="submit" class="btn-avancar">→ {{ e.proximo_status_display }}</button>
+            </form>
+            {% endif %}
+        </div>
+
+    </article>
+    {% endfor %}
+
+</section>
+{% else %}
+<div class="enc-vazio">
+    <span>
+        <img src="https://img.icons8.com/?size=100&id=GLHL6bQVSqTc&format=png&color=000000" alt="Orquidea">
+    </span>
+    <p>Nenhuma encomenda {% if filtro != 'todas' %}nesta lista{% endif %}{% if pesquisa %} para "{{ pesquisa }}"{% endif %}.</p>
+    <a href="{% url 'nova_encomenda' %}" class="btn-principal">+ Nova encomenda</a>
+</div>
+{% endif %}
+
+{% endblock %}

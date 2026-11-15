@@ -1,0 +1,157 @@
+{% extends 'floricultura/base.html' %}
+{% load static %}
+
+{% block titulo %}Dashboard | MarcinhaFlores{% endblock %}
+
+{% block cabecalho %}Dashboard{% endblock %}
+
+{% block descricao %}
+Resumo das vendas, estoque e clientes da floricultura.
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'floricultura/css/painel.css' %}?v=1">
+{% endblock %}
+
+{% block conteudo %}
+
+<!-- BOAS-VINDAS -->
+<section class="dash-boasvindas">
+    <div>
+        <span class="dash-data">{{ hoje|date:"l, d \d\e F \d\e Y" }}</span>
+        <h2>{{ saudacao }}! <img src="{% static 'floricultura/imagens/icons8-flor-100.png' %}" alt="Flor" class="dash-flor"></h2>
+        <p>Veja como está a floricultura hoje.</p>
+    </div>
+
+    <div class="dash-atalhos">
+        <a href="{% url 'nova_venda' %}" class="dash-atalho principal">+ Nova venda</a>
+        <a href="{% url 'produtos' %}" class="dash-atalho">Produtos</a>
+        <a href="{% url 'clientes' %}" class="dash-atalho">Clientes</a>
+    </div>
+</section>
+
+
+<!-- INDICADORES -->
+<section class="dash-kpis">
+
+    <div class="dash-kpi">
+    <div class="kpi-icone verde">
+        <img src="https://img.icons8.com/?size=100&id=7Zom8WfRFgUn&format=png&color=000000" alt="Vendas hoje">
+         </div>
+         <span class="kpi-titulo">Vendas hoje</span>
+        <strong class="kpi-valor">R$ {{ total_hoje|floatformat:"2g" }}</strong>
+        <small class="kpi-info">{{ vendas_hoje }} venda{{ vendas_hoje|pluralize }}{% if encomendas_hoje_qtd %} + {{ encomendas_hoje_qtd }} encomenda{{ encomendas_hoje_qtd|pluralize }}{% endif %}</small>
+    </div>
+
+    <div class="dash-kpi">
+        <div class="kpi-icone azul"> 
+            <img src="https://img.icons8.com/?size=100&id=12776&format=png&color=000000" alt="Vendas do mês">
+        </div>
+        <span class="kpi-titulo">Vendas do mês</span>
+        <strong class="kpi-valor">R$ {{ total_mes|floatformat:"2g" }}</strong>
+        <small class="kpi-info">{{ vendas_mes }} venda{{ vendas_mes|pluralize }}{% if encomendas_mes_qtd %} + {{ encomendas_mes_qtd }} encomenda{{ encomendas_mes_qtd|pluralize }}{% endif %} · ticket médio R$ {{ ticket_medio|floatformat:"2g" }}</small>
+    </div>
+
+    <div class="dash-kpi">
+        <div class="kpi-icone rosa"> 
+            <img src="https://img.icons8.com/?size=100&id=55365&format=png&color=000000" alt="Clientes ativos">
+        </div>
+        <span class="kpi-titulo">Clientes ativos</span>
+        <strong class="kpi-valor">{{ clientes_ativos }}</strong>
+        <small class="kpi-info"><a href="{% url 'clientes' %}">Ver clientes →</a></small>
+    </div>
+
+    <div class="dash-kpi {% if qtd_estoque_baixo %}alerta{% endif %}">
+        <div class="kpi-icone laranja">
+            <img src="https://img.icons8.com/?size=100&id=11883&format=png&color=000000" alt=" Estoque baixo">
+        </div>
+        <span class="kpi-titulo">Estoque baixo</span>
+        <strong class="kpi-valor">{{ qtd_estoque_baixo }}</strong>
+        <small class="kpi-info">
+            {% if qtd_estoque_baixo %}produto{{ qtd_estoque_baixo|pluralize }} precisa{{ qtd_estoque_baixo|pluralize:"m" }} de reposição{% else %}Tudo em dia {% endif %}
+        </small>
+    </div>
+
+</section>
+
+
+<!-- PAINÉIS -->
+<section class="dash-grade">
+
+    <!-- Últimas vendas -->
+    <div class="dash-painel dash-largo">
+        <div class="painel-topo">
+            <h3>Últimas vendas</h3>
+            <a href="{% url 'vendas' %}">Ver todas →</a>
+        </div>
+
+        {% if ultimas_vendas %}
+        <ul class="lista-vendas">
+            {% for venda in ultimas_vendas %}
+            <li>
+                <span class="avatar-venda">{{ venda.cliente.nome|slice:":1"|upper }}</span>
+                <div class="venda-info">
+                    <strong>{{ venda.cliente.nome }}</strong>
+                    <small>{{ venda.data_venda|date:"d/m H:i" }} · {{ venda.get_forma_pagamento_display }}</small>
+                </div>
+                <span class="venda-valor">R$ {{ venda.total|floatformat:"2g" }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="painel-vazio">Nenhuma venda registrada ainda.</p>
+        {% endif %}
+    </div>
+
+    <!-- Mais vendidos -->
+    <div class="dash-painel">
+        <div class="painel-topo">
+            <h3>Mais vendidos do mês</h3>
+        </div>
+
+        {% if mais_vendidos %}
+        <ul class="lista-ranking">
+            {% for item in mais_vendidos %}
+            <li>
+                <div class="ranking-linha">
+                    <span><b>{{ forloop.counter }}º</b> {{ item.produto__nome }}</span>
+                    <small>{{ item.qtd }} un.</small>
+                </div>
+                <div class="barra"><div style="width: {{ item.pct }}%"></div></div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="painel-vazio">Sem vendas neste mês.</p>
+        {% endif %}
+    </div>
+
+    <!-- Estoque baixo -->
+    <div class="dash-painel">
+        <div class="painel-topo">
+            <h3>Repor estoque</h3>
+            <a href="{% url 'produtos' %}">Produtos →</a>
+        </div>
+
+        {% if produtos_baixo %}
+        <ul class="lista-estoque">
+            {% for produto in produtos_baixo %}
+            <li>
+                <div>
+                    <strong>{{ produto.nome }}</strong>
+                    <small>Mínimo: {{ produto.estoque_minimo }}</small>
+                </div>
+                <span class="etiqueta-estoque {% if produto.quantidade_estoque == 0 %}zerado{% endif %}">
+                    {% if produto.quantidade_estoque == 0 %}Esgotado{% else %}{{ produto.quantidade_estoque }} restante{{ produto.quantidade_estoque|pluralize }}{% endif %}
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="painel-vazio">Nenhum produto abaixo do mínimo. </p>
+        {% endif %}
+    </div>
+
+</section>
+
+{% endblock %}
