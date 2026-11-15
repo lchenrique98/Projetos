@@ -1,0 +1,1381 @@
+@charset "UTF-8";
+
+/* =====================================================================
+   HelpDesk TI — estilo.css
+   Arquivo único de estilos do sistema.
+
+   Cada página diz qual parte usar pela classe do <body>:
+
+     Login (antigo Estilos.css) ........ <body class="tema-claro">
+     Cadastro de usuário ............... <body class="tela-cadastro">
+     Home .............................. <body class="tema-escuro tela-home">
+     Nova OS ........................... <body class="tema-escuro tela-nova-os">
+     Consultar OS / Painel / Detalhe ... <body class="tema-escuro tela-consulta">
+
+   Índice:
+     1. Base (vale para todas as páginas)
+     2. Tema escuro (comum à Home, Nova OS e Consulta/Painel)
+     3. Home
+     4. Consultar OS, Painel do técnico e Detalhe da OS
+     5. Nova OS
+     6. Cadastro de usuário
+     7. Tema claro (Login)
+   ===================================================================== */
+
+
+/* =====================================================================
+   1. BASE
+   ===================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ----- Mensagens de sucesso e erro ----- */
+
+.mensagem-sucesso,
+.mensagem-erro {
+    padding: 12px 16px;
+    margin: 0 0 20px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.mensagem-sucesso {
+    background: #dcfce7;
+    color: #166534 !important;
+}
+
+.mensagem-erro {
+    background: #fee2e2;
+    color: #991b1b !important;
+}
+
+
+/* =====================================================================
+   2. TEMA ESCURO (Home, Nova OS, Consulta/Painel/Detalhe)
+   ===================================================================== */
+
+body.tema-escuro {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+/* ----- Cabeçalho ----- */
+
+.tema-escuro .topo {
+    padding: 24px 6%;
+    background: #111c33;
+    border-bottom: 1px solid #263650;
+}
+
+.tema-escuro .topo h1 {
+    color: #38bdf8;
+    font-size: 27px;
+    margin-bottom: 4px;
+}
+
+.tema-escuro .topo h1 i {
+    margin-right: 8px;
+}
+
+.tema-escuro .topo p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* ----- Rodapé da página ----- */
+
+.tema-escuro .rodape {
+    margin-top: 50px;
+    padding: 22px;
+    text-align: center;
+    background: #111c33;
+    border-top: 1px solid #263650;
+}
+
+.tema-escuro .rodape p {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .tema-escuro .topo {
+        padding: 22px 5%;
+    }
+}
+
+
+/* =====================================================================
+   3. HOME
+   ===================================================================== */
+
+.tela-home h1,
+.tela-home h2,
+.tela-home h3 {
+    color: #f8fafc;
+}
+
+.tela-home p {
+    color: #94a3b8;
+}
+
+/* O rodapé da Home não tinha fundo. Apague esta regra se quiser
+   que ele fique igual ao das outras telas. */
+.tela-home .rodape {
+    padding: 20px;
+    background: none;
+    font-size: 13px;
+}
+
+/* ----- Conteúdo ----- */
+
+.tela-home .container {
+    width: 88%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.tela-home .container > h2 {
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.tela-home .container > p {
+    margin-bottom: 28px;
+}
+
+/* ----- Cartões ----- */
+
+.tela-home .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 22px;
+}
+
+.tela-home .card {
+    background: #172338;
+    border: 1px solid #2a3b55;
+    border-radius: 12px;
+    padding: 25px;
+    transition: 0.25s;
+}
+
+.tela-home .card:hover {
+    border-color: #38bdf8;
+    transform: translateY(-3px);
+}
+
+.tela-home .card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.tela-home .card p {
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+/* ----- Botões ----- */
+
+.tela-home .botao,
+.tela-home button,
+.tela-home input[type="submit"] {
+    display: inline-block;
+    background: #0284c7;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tela-home .botao:hover,
+.tela-home button:hover,
+.tela-home input[type="submit"]:hover {
+    background: #0ea5e9;
+    color: #ffffff;
+}
+
+/* ----- Formulário ----- */
+
+.tela-home form {
+    width: 100%;
+}
+
+.tela-home label {
+    display: block;
+    margin: 15px 0 7px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.tela-home input,
+.tela-home select,
+.tela-home textarea {
+    width: 100%;
+    padding: 11px 12px;
+    background: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.tela-home input:focus,
+.tela-home select:focus,
+.tela-home textarea:focus {
+    outline: none;
+    border-color: #38bdf8;
+}
+
+.tela-home input[type="submit"] {
+    width: auto;
+    margin-top: 20px;
+}
+
+.tela-home textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* ----- Tabela de chamados ----- */
+
+.tela-home table {
+    width: 100%;
+    margin-top: 22px;
+    border-collapse: collapse;
+    background: #172338;
+    border: 1px solid #2a3b55;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tela-home th {
+    background: #1e304b;
+    color: #38bdf8;
+    padding: 14px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.tela-home td {
+    padding: 13px 14px;
+    border-top: 1px solid #2a3b55;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.tela-home tr:hover td {
+    background: #1d2c43;
+}
+
+/* ----- Status das OS ----- */
+
+.tela-home .status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tela-home .status-aberta {
+    background: #172554;
+    color: #60a5fa;
+}
+
+.tela-home .status-andamento {
+    background: #422006;
+    color: #fbbf24;
+}
+
+.tela-home .status-concluida {
+    background: #052e16;
+    color: #4ade80;
+}
+
+/* ----- Mensagem ----- */
+
+.tela-home .mensagem-sucesso {
+    margin: 16px 0;
+}
+
+/* ----- Celular ----- */
+
+@media (max-width: 600px) {
+    .tela-home .container {
+        width: 92%;
+        margin: 28px auto;
+    }
+
+    .tela-home .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .tela-home table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+
+/* =====================================================================
+   4. CONSULTAR OS, PAINEL DO TÉCNICO E DETALHE DA OS
+   ===================================================================== */
+
+.tela-consulta a {
+    text-decoration: none;
+}
+
+/* ----- Conteúdo ----- */
+
+.tela-consulta .container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 38px auto;
+}
+
+.tela-consulta .voltar {
+    display: inline-block;
+    color: #38bdf8;
+    font-size: 14px;
+    margin-bottom: 25px;
+    transition: color 0.2s;
+}
+
+.tela-consulta .voltar:hover {
+    color: #7dd3fc;
+}
+
+.tela-consulta .voltar i {
+    margin-right: 6px;
+}
+
+/* ----- Título da página ----- */
+
+.tela-consulta .titulo-pagina {
+    margin-bottom: 28px;
+}
+
+.tela-consulta .titulo-pagina h2 {
+    color: #f8fafc;
+    font-size: 24px;
+    margin-bottom: 7px;
+}
+
+.tela-consulta .titulo-pagina h2 i {
+    color: #38bdf8;
+    margin-right: 8px;
+}
+
+.tela-consulta .titulo-pagina p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* ----- Painel ----- */
+
+.tela-consulta .painel {
+    overflow: hidden;
+    background: #172338;
+    border: 1px solid #2a3b55;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.tela-consulta .painel-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #2a3b55;
+}
+
+.tela-consulta .painel-topo h3 {
+    color: #f8fafc;
+    font-size: 17px;
+}
+
+.tela-consulta .contador {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 11px;
+    color: #7dd3fc;
+    background: #172554;
+    border: 1px solid #1e3a8a;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* ----- Tabela ----- */
+
+.tela-consulta .tabela-responsiva {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tela-consulta table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+.tela-consulta thead {
+    background: #1e304b;
+}
+
+.tela-consulta th {
+    padding: 15px 18px;
+    color: #38bdf8;
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tela-consulta td {
+    padding: 14px 18px;
+    color: #cbd5e1;
+    border-top: 1px solid #2a3b55;
+    font-size: 14px;
+}
+
+.tela-consulta tbody tr:hover td {
+    background: #1d2c43;
+}
+
+.tela-consulta .status-texto {
+    font-size: 13px;
+    font-weight: bold;
+    color: #cbd5e1;
+}
+
+/* ----- Lista vazia ----- */
+
+.tela-consulta .vazio {
+    padding: 48px 20px;
+    text-align: center;
+    white-space: normal;
+}
+
+.tela-consulta .vazio i {
+    display: block;
+    margin-bottom: 12px;
+    color: #38bdf8;
+    font-size: 35px;
+}
+
+.tela-consulta .vazio p {
+    margin-bottom: 5px;
+    color: #e2e8f0;
+    font-weight: bold;
+}
+
+.tela-consulta .vazio span {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* ----- Rodapé do painel ----- */
+
+.tela-consulta .painel-rodape {
+    padding: 20px 24px;
+    border-top: 1px solid #2a3b55;
+}
+
+.tela-consulta .botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 16px;
+    color: #ffffff;
+    background: #0284c7;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.tela-consulta .botao:hover {
+    color: #ffffff;
+    background: #0ea5e9;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+    .tela-consulta .container {
+        width: 92%;
+        margin: 28px auto;
+    }
+
+    .tela-consulta .titulo-pagina h2 {
+        font-size: 21px;
+    }
+
+    .tela-consulta .painel-topo {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .tela-consulta .painel-rodape {
+        padding: 18px;
+    }
+
+    .tela-consulta .vazio {
+        padding: 35px 15px;
+    }
+}
+
+/* ----- Topo com usuário logado ----- */
+
+.tela-consulta .topo-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.tela-consulta .topo-usuario {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    color: #cbd5e1;
+}
+
+.tela-consulta .topo-usuario form {
+    margin: 0;
+}
+
+.tela-consulta .botao-sair {
+    padding: 7px 12px;
+    color: #e2e8f0;
+    background: transparent;
+    border: 1px solid #334766;
+    border-radius: 7px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.tela-consulta .botao-sair:hover {
+    background: #1e2d47;
+}
+
+.tela-consulta .link-topo {
+    color: #38bdf8;
+    font-size: 13px;
+}
+
+/* ----- Cartões de contagem ----- */
+
+.tela-consulta .resumo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 26px;
+}
+
+.tela-consulta .resumo-card {
+    display: block;
+    padding: 16px 18px;
+    background: #172338;
+    border: 1px solid #2a3b55;
+    border-radius: 10px;
+    color: #e2e8f0;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.tela-consulta .resumo-card:hover {
+    border-color: #38bdf8;
+    transform: translateY(-1px);
+}
+
+.tela-consulta .resumo-card.ativo {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 1px #38bdf8 inset;
+}
+
+.tela-consulta .resumo-card strong {
+    display: block;
+    font-size: 28px;
+    line-height: 1.1;
+    color: #f8fafc;
+}
+
+.tela-consulta .resumo-card span {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* ----- Filtros ----- */
+
+.tela-consulta .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tela-consulta .filtro {
+    padding: 6px 12px;
+    border: 1px solid #334766;
+    border-radius: 999px;
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+.tela-consulta .filtro:hover {
+    border-color: #38bdf8;
+    color: #f8fafc;
+}
+
+.tela-consulta .filtro.ativo {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+}
+
+/* ----- Selos (status / prioridade) ----- */
+
+.tela-consulta .selo {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tela-consulta .status-aberta             { background: #1e3a8a; color: #bfdbfe; }
+.tela-consulta .status-em-analise         { background: #4c1d95; color: #ddd6fe; }
+.tela-consulta .status-em-atendimento     { background: #854d0e; color: #fef08a; }
+.tela-consulta .status-aguardando-usuario { background: #9a3412; color: #fed7aa; }
+.tela-consulta .status-resolvida          { background: #166534; color: #bbf7d0; }
+.tela-consulta .status-cancelada          { background: #374151; color: #d1d5db; }
+
+.tela-consulta .prioridade-urgente { background: #991b1b; color: #fecaca; }
+.tela-consulta .prioridade-alta    { background: #9a3412; color: #fed7aa; }
+.tela-consulta .prioridade-media   { background: #1e3a8a; color: #bfdbfe; }
+.tela-consulta .prioridade-baixa   { background: #334155; color: #cbd5e1; }
+
+.tela-consulta .sem-tecnico {
+    color: #fbbf24;
+    font-size: 13px;
+}
+
+.tela-consulta .link-os {
+    color: #38bdf8;
+    font-weight: bold;
+}
+
+.tela-consulta .link-os:hover {
+    color: #7dd3fc;
+}
+
+/* ----- Detalhe da OS ----- */
+
+.tela-consulta .detalhe-grade {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+    gap: 22px;
+    align-items: start;
+}
+
+.tela-consulta .bloco {
+    padding: 22px;
+    background: #172338;
+    border: 1px solid #2a3b55;
+    border-radius: 12px;
+    margin-bottom: 22px;
+}
+
+.tela-consulta .bloco h3 {
+    margin-bottom: 14px;
+    color: #f8fafc;
+    font-size: 17px;
+}
+
+.tela-consulta .bloco h3 i {
+    color: #38bdf8;
+    margin-right: 6px;
+}
+
+.tela-consulta .descricao {
+    white-space: pre-wrap;
+    color: #e2e8f0;
+}
+
+.tela-consulta .dados {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 14px;
+    font-size: 14px;
+}
+
+.tela-consulta .dados dt {
+    color: #94a3b8;
+}
+
+.tela-consulta .dados dd {
+    color: #e2e8f0;
+}
+
+.tela-consulta .bloco form label {
+    display: block;
+    margin: 12px 0 6px;
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+.tela-consulta .bloco select,
+.tela-consulta .bloco textarea {
+    width: 100%;
+    padding: 10px 12px;
+    color: #e2e8f0;
+    background: #0f172a;
+    border: 1px solid #334766;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.tela-consulta .bloco textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.tela-consulta .bloco button {
+    margin-top: 12px;
+    width: 100%;
+    padding: 11px 16px;
+    color: #ffffff;
+    background: #0284c7;
+    border: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tela-consulta .bloco button:hover {
+    background: #0ea5e9;
+}
+
+.tela-consulta .bloco button.secundario {
+    background: #166534;
+}
+
+.tela-consulta .bloco button.secundario:hover {
+    background: #15803d;
+}
+
+.tela-consulta .aviso {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* ----- Histórico de comentários ----- */
+
+.tela-consulta .comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.tela-consulta .comentario {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #1e2d47;
+    border-left: 3px solid #64748b;
+    max-width: 92%;
+}
+
+.tela-consulta .comentario.tecnico {
+    border-left-color: #38bdf8;
+    background: #10304a;
+    align-self: flex-end;
+}
+
+.tela-consulta .comentario-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.tela-consulta .comentario-cabecalho strong {
+    color: #e2e8f0;
+}
+
+.tela-consulta .etiqueta-tecnico {
+    margin-left: 6px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 11px;
+}
+
+.tela-consulta .comentario p {
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+.tela-consulta .sem-comentarios {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+@media (max-width: 800px) {
+    .tela-consulta .detalhe-grade {
+        grid-template-columns: 1fr;
+    }
+
+    .tela-consulta .comentario {
+        max-width: 100%;
+    }
+}
+
+
+/* =====================================================================
+   5. NOVA OS
+   ===================================================================== */
+
+.tela-nova-os .container {
+    width: 88%;
+    max-width: 850px;
+    margin: 38px auto;
+}
+
+.tela-nova-os .container > p {
+    margin-bottom: 18px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.tela-nova-os .container > p a {
+    color: #38bdf8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.tela-nova-os .container > p a:hover {
+    color: #7dd3fc;
+}
+
+.tela-nova-os .container > h2 {
+    color: #f8fafc;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.tela-nova-os .container > h2 i {
+    color: #38bdf8;
+    margin-right: 8px;
+}
+
+/* ----- Cartão do formulário ----- */
+
+.tela-nova-os .card {
+    margin-top: 28px;
+    padding: 30px;
+    background: #172338;
+    border: 1px solid #2a3b55;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ----- Campos ----- */
+
+.tela-nova-os label {
+    display: block;
+    margin: 18px 0 7px;
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tela-nova-os input,
+.tela-nova-os select,
+.tela-nova-os textarea {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #f1f5f9;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tela-nova-os input::placeholder,
+.tela-nova-os textarea::placeholder {
+    color: #64748b;
+}
+
+.tela-nova-os input:focus,
+.tela-nova-os select:focus,
+.tela-nova-os textarea:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}
+
+.tela-nova-os select {
+    cursor: pointer;
+}
+
+.tela-nova-os select option {
+    color: #f1f5f9;
+    background: #172338;
+}
+
+.tela-nova-os textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* ----- Botões ----- */
+
+.tela-nova-os button,
+.tela-nova-os .botao,
+.tela-nova-os .botao-cancelar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 17px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.tela-nova-os button {
+    color: #ffffff;
+    background: #0284c7;
+}
+
+.tela-nova-os button:hover {
+    background: #0ea5e9;
+    transform: translateY(-1px);
+}
+
+.tela-nova-os .botao,
+.tela-nova-os .botao-cancelar {
+    color: #cbd5e1;
+    background: #263449;
+}
+
+.tela-nova-os .botao:hover,
+.tela-nova-os .botao-cancelar:hover {
+    color: #ffffff;
+    background: #334155;
+}
+
+.tela-nova-os .acoes-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+@media (max-width: 600px) {
+    .tela-nova-os .container {
+        width: 92%;
+        margin: 28px auto;
+    }
+
+    .tela-nova-os .container > h2 {
+        font-size: 22px;
+    }
+
+    .tela-nova-os .card {
+        padding: 20px;
+    }
+
+    .tela-nova-os .acoes-formulario {
+        flex-direction: column;
+    }
+
+    .tela-nova-os .acoes-formulario button,
+    .tela-nova-os .acoes-formulario .botao,
+    .tela-nova-os .acoes-formulario .botao-cancelar {
+        width: 100%;
+    }
+}
+
+
+/* =====================================================================
+   6. CADASTRO DE USUÁRIO
+   ===================================================================== */
+
+body.tela-cadastro {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #172554, #312e81);
+    color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.tela-cadastro .container {
+    width: 100%;
+    max-width: 440px;
+}
+
+.tela-cadastro .formulario {
+    background: #ffffff;
+    color: #1e293b;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+}
+
+.tela-cadastro h1 {
+    color: #4338ca;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.tela-cadastro h2 {
+    margin-bottom: 8px;
+}
+
+.tela-cadastro .formulario > p {
+    margin-bottom: 22px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.tela-cadastro label {
+    display: block;
+    margin: 15px 0 7px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.tela-cadastro input,
+.tela-cadastro select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+}
+
+.tela-cadastro input:focus,
+.tela-cadastro select:focus {
+    outline: 2px solid #6366f1;
+    border-color: #6366f1;
+}
+
+.tela-cadastro button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 13px;
+    background: #4338ca;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tela-cadastro button:hover {
+    background: #3730a3;
+}
+
+.tela-cadastro .formulario .rodape {
+    text-align: center;
+    margin: 20px 0 0;
+    font-size: 14px;
+}
+
+.tela-cadastro a {
+    color: #4338ca;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.tela-cadastro a:hover {
+    text-decoration: underline;
+}
+
+/* ----- Código do técnico ----- */
+
+.tela-cadastro .opcional {
+    font-weight: normal;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.tela-cadastro .dica {
+    margin: -6px 0 14px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+
+/* =====================================================================
+   7. TEMA CLARO (Login — antigo Estilos.css)
+   ===================================================================== */
+
+body.tema-claro {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.tema-claro h1,
+.tema-claro h2,
+.tema-claro h3 {
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+
+.tema-claro h1 {
+    font-size: 30px;
+}
+
+/* ----- Login ----- */
+
+.tema-claro .login-container {
+    width: 90%;
+    max-width: 420px;
+    margin: 70px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+}
+
+.tema-claro .login-container h1 {
+    text-align: center;
+    color: #2563eb;
+}
+
+.tema-claro .subtitulo {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+/* ----- Área principal ----- */
+
+.tema-claro .container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 35px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+}
+
+/* ----- Formulários ----- */
+
+.tema-claro form {
+    margin-top: 20px;
+}
+
+.tema-claro label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #334155;
+}
+
+.tema-claro input,
+.tema-claro select,
+.tema-claro textarea {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.tema-claro input:focus,
+.tema-claro select:focus,
+.tema-claro textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.tema-claro textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* ----- Botões ----- */
+
+.tema-claro button {
+    display: inline-block;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tema-claro button:hover {
+    background: #1d4ed8;
+}
+
+.tema-claro .login-container button {
+    width: 100%;
+}
+
+/* ----- Links ----- */
+
+.tema-claro a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.tema-claro a:hover {
+    text-decoration: underline;
+}
+
+/* ----- Cartões ----- */
+
+.tema-claro .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.tema-claro .card {
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tema-claro .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.10);
+}
+
+/* ----- Tabela ----- */
+
+.tema-claro table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.tema-claro th,
+.tema-claro td {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.tema-claro th {
+    background: #dbeafe;
+    color: #1e3a8a;
+}
+
+.tema-claro tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* ----- Status das OS ----- */
+
+.tema-claro .status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tema-claro .status-aberta {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.tema-claro .status-andamento {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.tema-claro .status-concluida {
+    background: #dcfce7;
+    color: #166534;
+}
+
+/* ----- Mensagens ----- */
+
+.tema-claro .mensagem-sucesso,
+.tema-claro .mensagem-erro {
+    padding: 12px;
+    margin: 15px 0;
+    font-size: inherit;
+}
+
+/* ----- Celulares ----- */
+
+@media (max-width: 600px) {
+    .tema-claro .login-container {
+        margin: 30px auto;
+        padding: 25px;
+    }
+
+    .tema-claro .container {
+        width: 95%;
+        padding: 18px;
+    }
+
+    .tema-claro table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
